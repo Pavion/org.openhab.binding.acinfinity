@@ -1,0 +1,22 @@
+This content is produced and maintained by the openHAB project contributors.
+
+* Project home: https://www.openhab.org
+
+== Declared Project Licenses
+
+This program and the accompanying materials are made available under the terms
+of the Eclipse Public License 2.0 which is available at
+https://www.eclipse.org/legal/epl-2.0/.
+
+== Source Code
+
+https://github.com/openhab/openhab-addons
+
+== Third-party Content
+
+homeassistant-acinfinity
+* License: MIT
+* Project: https://github.com/dalinicus/homeassistant-acinfinity
+* Copyright (c) 2019 - 2023 Joakim Sørensen (@ludeeus), as stated in its LICENSE file
+* No source code of this project is included. The AC Infinity cloud API endpoints
+  and field names used by this binding were documented by studying it.

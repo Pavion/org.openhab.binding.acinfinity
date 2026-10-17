@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<thing:thing-descriptions bindingId="acinfinity"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
+	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+
+	<bridge-type id="account">
+		<label>AC Infinity Account</label>
+		<description>Connects to an AC Infinity account and discovers cloud-connected UIS controllers.</description>
+		<config-description>
+			<parameter name="email" type="text" required="true">
+				<label>E-mail</label>
+				<description>E-mail address registered with the AC Infinity app.</description>
+			</parameter>
+			<parameter name="password" type="text" required="true">
+				<label>Password</label>
+				<context>password</context>
+				<description>Password registered with the AC Infinity app.</description>
+			</parameter>
+			<parameter name="refresh" type="integer" required="true">
+				<label>Refresh interval</label>
+				<description>Cloud polling interval in seconds (minimum 5 seconds).</description>
+				<default>10</default>
+			</parameter>
+		</config-description>
+	</bridge-type>
+
+	<thing-type id="controller">
+		<supported-bridge-type-refs>
+			<bridge-type-ref id="account"/>
+		</supported-bridge-type-refs>
+		<label>AC Infinity Controller</label>
+		<description>A Wi-Fi UIS controller discovered through the AC Infinity cloud.</description>
+		<channel-groups>
+			<channel-group id="controller" typeId="controller">
+				<label>Controller</label>
+			</channel-group>
+			<channel-group id="port1" typeId="port">
+				<label>Port 1</label>
+			</channel-group>
+			<channel-group id="port2" typeId="port">
+				<label>Port 2</label>
+			</channel-group>
+			<channel-group id="port3" typeId="port">
+				<label>Port 3</label>
+			</channel-group>
+			<channel-group id="port4" typeId="port">
+				<label>Port 4</label>
+			</channel-group>
+			<channel-group id="port5" typeId="port">
+				<label>Port 5</label>
+			</channel-group>
+			<channel-group id="port6" typeId="port">
+				<label>Port 6</label>
+			</channel-group>
+			<channel-group id="port7" typeId="port">
+				<label>Port 7</label>
+			</channel-group>
+			<channel-group id="port8" typeId="port">
+				<label>Port 8</label>
+			</channel-group>
+			<channel-group id="sensor1" typeId="sensor">
+				<label>Sensor Port 1</label>
+			</channel-group>
+			<channel-group id="sensor2" typeId="sensor">
+				<label>Sensor Port 2</label>
+			</channel-group>
+		</channel-groups>
+		<properties>
+			<property name="manufacturer">AC Infinity</property>
+		</properties>
+		<representation-property>controllerId</representation-property>
+	</thing-type>
+
+
+	<channel-group-type id="controller">
+		<label>Controller</label>
+		<channels>
+			<channel id="online" typeId="online"/>
+			<channel id="temperature" typeId="temperature"/>
+			<channel id="humidity" typeId="humidity"/>
+			<channel id="vpd" typeId="vpd"/>
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="port">
+		<label>Device Port</label>
+		<description>A device port (outlet) of the controller.</description>
+		<channels>
+			<channel id="name" typeId="port-name"/>
+			<channel id="online" typeId="port-online"/>
+			<channel id="speed" typeId="port-speed"/>
+			<channel id="remaining-time" typeId="port-remaining-time"/>
+		</channels>
+	</channel-group-type>
+	<channel-group-type id="sensor">
+		<label>Sensor Port</label>
+		<description>A sensor port of an AI controller. Channels stay undefined for readings the attached probe does not
+			provide.</description>
+		<channels>
+			<channel id="temperature" typeId="temperature"/>
+			<channel id="humidity" typeId="humidity"/>
+			<channel id="vpd" typeId="vpd"/>
+			<channel id="soil-moisture" typeId="soil-moisture"/>
+			<channel id="co2" typeId="co2"/>
+			<channel id="light" typeId="light"/>
+			<channel id="ph" typeId="ph"/>
+			<channel id="water-temperature" typeId="water-temperature"/>
+			<channel id="water-detected" typeId="water-detected"/>
+		</channels>
+	</channel-group-type>
+
+	<channel-type id="online">
+		<item-type>Switch</item-type>
+		<label>Online</label>
+		<description>Whether the controller is online according to the cloud API.</description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="temperature">
+		<item-type>Number:Temperature</item-type>
+		<label>Temperature</label>
+		<description>Temperature as reported by the cloud API.</description>
+		<category>Temperature</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Temperature</tag>
+		</tags>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+	<channel-type id="humidity">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Humidity</label>
+		<description>Relative humidity as reported by the cloud API.</description>
+		<category>Humidity</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Humidity</tag>
+		</tags>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+	<channel-type id="vpd">
+		<item-type>Number:Pressure</item-type>
+		<label>VPD</label>
+		<description>Vapor pressure deficit as reported by the cloud API.</description>
+		<category>Pressure</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Pressure</tag>
+		</tags>
+		<state readOnly="true" pattern="%.2f kPa"/>
+	</channel-type>
+	<channel-type id="soil-moisture">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Soil Moisture</label>
+		<description>Soil moisture reported by an attached soil probe.</description>
+		<category>Humidity</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Humidity</tag>
+		</tags>
+		<state readOnly="true" pattern="%.0f %unit%"/>
+	</channel-type>
+	<channel-type id="co2">
+		<item-type>Number:Dimensionless</item-type>
+		<label>CO2</label>
+		<description>CO2 concentration reported by an attached CO2 probe.</description>
+		<category>CarbonDioxide</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>CO2</tag>
+		</tags>
+		<state readOnly="true" pattern="%.0f ppm"/>
+	</channel-type>
+	<channel-type id="light">
+		<item-type>Number:Dimensionless</item-type>
+		<label>Light Level</label>
+		<description>Light level (percent) reported by an attached light probe.</description>
+		<category>Light</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Light</tag>
+		</tags>
+		<state readOnly="true" pattern="%.0f %unit%"/>
+	</channel-type>
+	<channel-type id="ph">
+		<item-type>Number</item-type>
+		<label>pH</label>
+		<description>pH value reported by an attached hydroponic probe.</description>
+		<state readOnly="true" pattern="%.2f"/>
+	</channel-type>
+	<channel-type id="water-temperature">
+		<item-type>Number:Temperature</item-type>
+		<label>Water Temperature</label>
+		<description>Water temperature reported by an attached hydroponic probe.</description>
+		<category>Temperature</category>
+		<tags>
+			<tag>Measurement</tag>
+			<tag>Temperature</tag>
+		</tags>
+		<state readOnly="true" pattern="%.1f %unit%"/>
+	</channel-type>
+	<channel-type id="water-detected">
+		<item-type>Switch</item-type>
+		<label>Water Detected</label>
+		<description>Whether an attached water sensor detects water.</description>
+		<category>Water</category>
+		<tags>
+			<tag>Status</tag>
+			<tag>Water</tag>
+		</tags>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="port-name">
+		<item-type>String</item-type>
+		<label>Name</label>
+		<description>Name of the device attached to the port.</description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="port-online">
+		<item-type>Switch</item-type>
+		<label>Connected</label>
+		<description>Whether a device is connected to the port.</description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="port-speed">
+		<item-type>Number</item-type>
+		<label>Level</label>
+		<description>Current speed or power level of the port (0 to 10).</description>
+		<state readOnly="true" min="0" max="10" pattern="%d"/>
+	</channel-type>
+	<channel-type id="port-remaining-time">
+		<item-type>Number:Time</item-type>
+		<label>Remaining Time</label>
+		<description>Time remaining until the next mode change of the port.</description>
+		<state readOnly="true" pattern="%d %unit%"/>
+	</channel-type>
+
+</thing:thing-descriptions>
