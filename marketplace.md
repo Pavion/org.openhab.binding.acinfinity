@@ -6,7 +6,7 @@ This binding connects openHAB to Wi-Fi UIS controllers through the AC Infinity c
 
 ## Resources
 
-Latest available release JAR (pre-release): https://github.com/Pavion/org.openhab.binding.acinfinity/releases/download/5.0.0-Alpha/org.openhab.binding.acinfinity-5.0.0.jar
+Latest available release JAR (pre-release): <https://github.com/Pavion/org.openhab.binding.acinfinity/releases/download/5.0.0-Alpha/org.openhab.binding.acinfinity-5.0.0.jar>
 
 For other releases, see the [GitHub releases](https://github.com/Pavion/org.openhab.binding.acinfinity/releases).
 
