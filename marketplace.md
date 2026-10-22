@@ -14,7 +14,7 @@ For other releases, see the [GitHub releases](https://github.com/Pavion/org.open
 
 Add an AC Infinity account bridge using the e-mail address and password registered with the AC Infinity app. The binding discovers supported Wi-Fi UIS controllers as child Things and polls the cloud API every 10 seconds by default (minimum 5 seconds).
 
-Controller channels report online status, temperature, humidity, and VPD. Each controller exposes eight device-port groups with the attached device name, connection status, speed/power level, and remaining time. AI controller sensor ports can report temperature, humidity, VPD, soil moisture, CO2, light, pH, water temperature, and water detection; available readings depend on the controller and attached probe.
+Controller channels report online status, temperature, humidity, and VPD. Each controller exposes eight device-port groups with the attached device name, connection status, operating mode, detected load state, speed/power level, and remaining time. AI controller sensor ports can report temperature, humidity, VPD, soil moisture, CO2, light, pH, water temperature, and water detection; available readings depend on the controller and attached probe.
 
 This binding uses an undocumented AC Infinity cloud API and requires an Internet connection. The API or authentication behavior may change without notice. Bluetooth-only controllers and local/Bluetooth communication are not supported. All channels are read-only.
 

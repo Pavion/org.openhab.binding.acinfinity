@@ -81,8 +81,12 @@ class AcInfinityApiClientTest {
         String response = """
                 {"code":200,"data":[{"devId":"1","devName":"AI","online":1,"deviceInfo":{
                   "firmwareVersion":"3.2.1","devMacAddr":"AA:BB",
-                  "ports":[{"port":1,"portName":"Fan","online":1,"speak":5,"remainTime":90},
-                           {"port":9,"portName":"ignored"}],
+                  "ports":[{"port":1,"portName":"Fan","online":1,"curMode":3,"loadState":1,"speak":5,"remainTime":90},
+                           {"port":2,"curMode":1,"loadState":0},
+                           {"port":3,"curMode":2,"loadState":1},
+                           {"port":4,"curMode":8,"loadState":0},
+                           {"port":5,"curMode":42},
+                           {"port":9,"portName":"ignored","curMode":1,"loadState":1}],
                   "sensors":[
                   {"accessPort":1,"sensorType":1,"sensorPrecision":2,"sensorData":251},
                   {"accessPort":1,"sensorType":2,"sensorPrecision":2,"sensorData":601},
@@ -93,9 +97,18 @@ class AcInfinityApiClientTest {
 
         assertEquals("Fan", controller.texts().get("port1#name"));
         assertEquals(Boolean.TRUE, controller.switches().get("port1#online"));
+        assertEquals("AUTO", controller.texts().get("port1#mode"));
+        assertEquals(Boolean.TRUE, controller.switches().get("port1#load-state"));
+        assertEquals("OFF", controller.texts().get("port2#mode"));
+        assertEquals(Boolean.FALSE, controller.switches().get("port2#load-state"));
+        assertEquals("ON", controller.texts().get("port3#mode"));
+        assertEquals("VPD", controller.texts().get("port4#mode"));
+        assertEquals("UNKNOWN (42)", controller.texts().get("port5#mode"));
         assertDecimal("5", controller.numbers().get("port1#speed"));
         assertDecimal("90", controller.numbers().get("port1#remaining-time"));
         assertFalse(controller.texts().containsKey("port9#name"));
+        assertFalse(controller.texts().containsKey("port9#mode"));
+        assertFalse(controller.switches().containsKey("port9#load-state"));
         assertDecimal("25.1", controller.numbers().get("sensor1#temperature"));
         assertDecimal("60.1", controller.numbers().get("sensor1#humidity"));
         assertEquals(Boolean.TRUE, controller.switches().get("sensor2#water-detected"));

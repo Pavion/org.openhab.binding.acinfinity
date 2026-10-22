@@ -34,6 +34,8 @@ Channel groups `port1` to `port8` (device ports):
 | --- | --- | --- |
 | `name` | String | Name of the device attached to the port |
 | `online` | Switch | Whether a device is connected |
+| `mode` | String | Current operating mode (`OFF`, `ON`, `AUTO`, `VPD`, or `UNKNOWN (<code>)`) |
+| `load-state` | Switch | Whether a load is detected; distinct from the connection status |
 | `speed` | Number | Current speed/power level (0-10) |
 | `remaining-time` | Number:Time | Time until the next mode change (s) |
 
@@ -52,6 +54,7 @@ Channel groups `sensor1` and `sensor2` (sensor ports of AI controllers; channels
 | `water-detected` | Switch | Water sensor state |
 
 Channels are read-only. Controller properties (firmware, hardware, MAC address, controller type, time zone, port count) are set when reported by the API. The number of ports is fixed at 8 device ports and 2 sensor ports; available fields vary with controller model.
+Port mode values are based on community documentation for the unofficial API: `1` = `OFF`, `2` = `ON` (manual), `3` = `AUTO`, and `8` = `VPD`. Unrecognized values are reported as `UNKNOWN (<code>)`.
 
 ## Limitations
 

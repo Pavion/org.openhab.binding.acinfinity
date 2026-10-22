@@ -88,6 +88,8 @@
 		<channels>
 			<channel id="name" typeId="port-name"/>
 			<channel id="online" typeId="port-online"/>
+			<channel id="mode" typeId="port-mode"/>
+			<channel id="load-state" typeId="port-load-state"/>
 			<channel id="speed" typeId="port-speed"/>
 			<channel id="remaining-time" typeId="port-remaining-time"/>
 		</channels>
@@ -219,6 +221,18 @@
 		<item-type>Switch</item-type>
 		<label>Connected</label>
 		<description>Whether a device is connected to the port.</description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="port-mode">
+		<item-type>String</item-type>
+		<label>Mode</label>
+		<description>Current port mode: OFF, ON, AUTO, VPD, or UNKNOWN with the unrecognized API code.</description>
+		<state readOnly="true"/>
+	</channel-type>
+	<channel-type id="port-load-state">
+		<item-type>Switch</item-type>
+		<label>Load State</label>
+		<description>Whether a load is detected on the port. This is distinct from the device connection status.</description>
 		<state readOnly="true"/>
 	</channel-type>
 	<channel-type id="port-speed">

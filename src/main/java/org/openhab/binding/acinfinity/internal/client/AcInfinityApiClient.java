@@ -222,9 +222,20 @@ public class AcInfinityApiClient {
                 if (portName != null) {
                     texts.put(prefix + "name", portName);
                 }
+                BigDecimal mode = readNumberOrNull(port, "curMode");
+                if (mode != null) {
+                    texts.put(prefix + "mode", portMode(mode));
+                }
                 try {
                     if (port.has("online") && !port.get("online").isJsonNull()) {
                         switches.put(prefix + "online", readOnline(port.get("online")));
+                    }
+                } catch (AcInfinityApiException e) {
+                    // optional enrichment: leave the channel undefined
+                }
+                try {
+                    if (port.has("loadState") && !port.get("loadState").isJsonNull()) {
+                        switches.put(prefix + "load-state", readOnline(port.get("loadState")));
                     }
                 } catch (AcInfinityApiException e) {
                     // optional enrichment: leave the channel undefined
@@ -244,6 +255,17 @@ public class AcInfinityApiClient {
 
         return new AcInfinityControllerSnapshot(id, name, online, temperature, humidity, vpd, numbers, switches, texts,
                 properties);
+    }
+
+    private static String portMode(BigDecimal mode) {
+        String code = mode.stripTrailingZeros().toPlainString();
+        return switch (code) {
+            case "1" -> "OFF";
+            case "2" -> "ON";
+            case "3" -> "AUTO";
+            case "8" -> "VPD";
+            default -> "UNKNOWN (" + code + ")";
+        };
     }
 
     private static void putProbeValue(Map<String, BigDecimal> numbers, Map<String, Boolean> switches, String prefix,
