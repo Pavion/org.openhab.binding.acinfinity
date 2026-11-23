@@ -26,7 +26,7 @@ import java.util.concurrent.TimeoutException;
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.jetty.client.ContentResponse;
-import org.eclipse.jetty.client.FormContentProvider;
+import org.eclipse.jetty.client.FormRequestContent;
 import org.eclipse.jetty.client.HttpClient;
 import org.eclipse.jetty.client.Request;
 import org.eclipse.jetty.http.HttpMethod;
@@ -111,15 +111,15 @@ public class AcInfinityApiClient {
         try {
             Request request = httpClient.newRequest(URI.create(API_HOST + path));
             request.method(HttpMethod.POST);
-            request.header("User-Agent", "okhttp/4.12.0");
+            request.headers(h -> h.put("User-Agent", "okhttp/4.12.0"));
             if (userId != null) {
-                request.header("token", userId);
+                request.headers(h -> h.put("token", userId));
             }
             Fields form = new Fields();
             for (int i = 0; i < parameters.length; i += 2) {
                 form.put(parameters[i], parameters[i + 1]);
             }
-            request.content(new FormContentProvider(form));
+            request.body(new FormRequestContent(form));
             ContentResponse response = request.timeout(REQUEST_TIMEOUT_SECONDS, TimeUnit.SECONDS).send();
             if (response.getStatus() != 200) {
                 throw new AcInfinityApiException("AC Infinity request failed with HTTP status " + response.getStatus());
